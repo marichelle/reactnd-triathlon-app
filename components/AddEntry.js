@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+import { Ionicons } from '@expo/vector-icons';
+
 import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 import DateHeader from './DateHeader';
+import TextButton from './TextButton';
 import UdaciSlider from './UdaciSlider';
 import UdaciStepper from './UdaciStepper';
 
@@ -17,9 +20,9 @@ function SubmitBtn({ onPress }) {
 export default class AddEntry extends Component {
   state = {
     run: 0,
-    bike: 10,
+    bike: 0,
     swim: 0,
-    sleep: 5,
+    sleep: 0,
     eat: 0,
   };
 
@@ -45,6 +48,16 @@ export default class AddEntry extends Component {
         [metric]: count > max ? max : count,
       };
     });
+  };
+
+  reset = () => {
+    const key = timeToString();
+
+    // update redux
+
+    // route to home
+
+    // update to database
   };
 
   slide = (metric, value) => {
@@ -76,10 +89,19 @@ export default class AddEntry extends Component {
   render() {
     const metaInfo = getMetricMetaInfo();
 
+    if (this.props.alreadyLogged) {
+      return (
+        <View>
+          <Ionicons name={'ios-happy'} size={100} />
+          <Text>You already logged your information for today</Text>
+          <TextButton onPress={this.reset}>Reset</TextButton>
+        </View>
+      );
+    }
+
     return (
       <View>
         <DateHeader date={new Date().toLocaleDateString()} />
-        <Text>{JSON.stringify(this.state)}</Text>
         {Object.keys(metaInfo).map((key) => {
           const { getIcon, type, ...rest } = metaInfo[key];
           const value = this.state[key];
