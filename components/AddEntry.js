@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 
-import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 import DateHeader from './DateHeader';
 import TextButton from './TextButton';
 import UdaciSlider from './UdaciSlider';
 import UdaciStepper from './UdaciStepper';
+import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import { removeEntry, submitEntry } from '../utils/api';
 
 function SubmitBtn({ onPress }) {
   return (
@@ -58,6 +58,7 @@ export default class AddEntry extends Component {
     // route to home
 
     // update to database
+    removeEntry(key);
   };
 
   slide = (metric, value) => {
@@ -82,6 +83,7 @@ export default class AddEntry extends Component {
     // navigate to home
 
     // save to database
+    submitEntry({ key, entry });
 
     // clear local notification
   };
