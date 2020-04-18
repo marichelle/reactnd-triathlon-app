@@ -63,7 +63,6 @@ export default function UdaciStepper({
           </TouchableOpacity>
         </View>
       )}
-
       <View style={styles.metricCounter}>
         <Text style={{ fontSize: 24, textAlign: 'center' }}>{value}</Text>
         <Text style={{ fontSize: 18, color: gray }}>{unit}</Text>
