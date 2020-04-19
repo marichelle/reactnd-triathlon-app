@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import UdaciFitnessCalendar from 'udacifitness-calendar';
 
 import { addEntry, receiveEntries } from '../actions';
 import { fetchCalendarResults } from '../utils/api';
@@ -16,18 +17,38 @@ class History extends Component {
         if (!entries[timeToString()]) {
           dispatch(
             addEntry({
-              [timeToString]: getDailyReminderValue(),
+              [timeToString()]: getDailyReminderValue(),
             })
           );
         }
       });
   }
 
+  renderEmptyDate = (formattedDate) => (
+    <View>
+      <Text>No data for this day</Text>
+    </View>
+  );
+
+  renderItem = (formattedDate, key, { today, ...metrics }) => (
+    <View>
+      {today ? (
+        <Text>{JSON.stringify(today)}</Text>
+      ) : (
+        <Text>{JSON.stringify(metrics)}</Text>
+      )}
+    </View>
+  );
+
   render() {
+    const { entries } = this.props;
+
     return (
-      <View>
-        <Text> {JSON.stringify(this.props)} </Text>
-      </View>
+      <UdaciFitnessCalendar
+        items={entries}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+      />
     );
   }
 }
